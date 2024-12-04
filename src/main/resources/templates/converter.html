@@ -1,0 +1,139 @@
+<!-- src/main/resources/templates/converter.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 30px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .currency-converter {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .currency-converter .input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        select, input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .converter-btn {
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            margin-top: 20px;
+        }
+        .converter-btn:hover {
+            background-color: #45a049;
+        }
+        .exchange-rate {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .exchange-rate span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">Currency Converter</div>
+    <div class="currency-converter">
+        <div class="input-group">
+            <label for="fromCurrency">From Currency</label>
+            <select id="fromCurrency" name="fromCurrency">
+                <option value="KZT">Kazakhstan Tenge</option>
+                <option value="USD">US Dollar</option>
+                <option value="EUR">Euro</option>
+                <option value="BTC">Bitcoin</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" name="amount" placeholder="Enter amount">
+        </div>
+
+        <div class="input-group">
+            <label for="toCurrency">To Currency</label>
+            <select id="toCurrency" name="toCurrency">
+                <option value="USD">US Dollar</option>
+                <option value="KZT">Kazakhstan Tenge</option>
+                <option value="EUR">Euro</option>
+                <option value="BTC">Bitcoin</option>
+            </select>
+        </div>
+
+        <button class="converter-btn" onclick="convertCurrency()">Convert</button>
+
+        <div class="exchange-rate" id="exchangeRate">
+            <span>Exchange Rate: 1 KZT = 0.002 USD</span> <!-- This will be dynamically updated -->
+        </div>
+    </div>
+</div>
+
+<script>
+    function convertCurrency() {
+        const fromCurrency = document.getElementById('fromCurrency').value;
+        const toCurrency = document.getElementById('toCurrency').value;
+        const amount = parseFloat(document.getElementById('amount').value);
+
+        if (isNaN(amount) || amount <= 0) {
+            alert("Please enter a valid amount.");
+            return;
+        }
+
+        // Example conversion rates (you would replace this with actual API call for dynamic rates)
+        const conversionRates = {
+            'KZT-USD': 0.002,
+            'USD-KZT': 500,
+            'USD-EUR': 0.9,
+            'EUR-USD': 1.1,
+            // Add other rates as needed
+        };
+
+        const conversionKey = `${fromCurrency}-${toCurrency}`;
+        const rate = conversionRates[conversionKey];
+
+        if (rate) {
+            const result = amount * rate;
+            document.getElementById('exchangeRate').innerHTML = `Converted amount: ${result} ${toCurrency}`;
+        } else {
+            alert("Conversion rate not available.");
+        }
+    }
+</script>
+</body>
+</html>
+
